@@ -1,0 +1,9 @@
+
+alias l='ls -al'
+alias lt='ls -altr'
+
+alias path='echo -e "${PATH//:/\\n}"'
+
+alias z='zoxide'
+alias zg=lazygit
+alias cm=chezmoi

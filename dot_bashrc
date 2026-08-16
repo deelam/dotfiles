@@ -1,6 +1,5 @@
 # .bashrc
 
-
 # Test if running interactively
 [[ $- != *i* ]] && return
 
@@ -31,6 +30,6 @@ unset rc
 
 eval "$($HOME/.cargo/bin/sheldon source)"
 
-# eval "$($HOME/.local/bin/mise activate bash)"
+source .alias
 
-# . "$HOME/.atuin/bin/env"
+# eval "$($HOME/.local/bin/mise activate bash)"
