@@ -1,0 +1,66 @@
+# `sheldon` configuration file
+# ----------------------------
+#
+# You can modify this file directly or you can use one of the following
+# `sheldon` commands which are provided to assist in editing the config file:
+#
+# - `sheldon add` to add a new plugin to the config file
+# - `sheldon edit` to open up the config file in the default editor
+# - `sheldon remove` to remove a plugin from the config file
+#
+# See the documentation for more https://github.com/rossmacarthur/sheldon#readme
+
+shell = "bash"
+
+[plugins]
+
+# [plugins.base16]
+# github = "chriskempson/base16-shell"
+
+# Initialize Starship Prompt
+[plugins.starship-init]
+inline = '''
+if command -v starship &> /dev/null; then
+    eval "$(starship init bash)"
+fi
+'''
+
+# Automatically activate mise tool manager
+[plugins.mise-activation]
+inline = '''
+if command -v mise &> /dev/null; then
+    eval "$(mise activate bash)"
+    eval "$(mise completion bash)"
+fi
+'''
+
+# 1. Official Bash completions (Highly recommended)
+[plugins.bash-completions]
+github = "scop/bash-completion"
+use = ["bash_completion"]
+
+# 2. Extract specific plugins out of the Oh My Bash framework
+
+# # ADD THIS: Download the official core git script to provide __git_complete
+# [plugins.git-base-completion]
+# github = "git/git"
+# dir = "contrib/completion"
+# use = ["git-completion.bash"]
+#
+# [plugins.omb-git]
+# github = "ohmybash/oh-my-bash"
+# dir = "plugins/git"
+# use = ["git.plugin.sh"]
+
+# [plugins.omb-bash-marks]
+# github = "ohmybash/oh-my-bash"
+# dir = "plugins/bashmarks"
+# use = ["bashmarks.plugin.sh"]
+
+# 1. Load the preexec framework required by Bash
+# [plugins.bash-preexec]
+# github = "rcaloras/bash-preexec"
+
+[plugins.atuin]
+inline = '. "$HOME/.atuin/bin/env"; eval "$(atuin init bash)"'
+
