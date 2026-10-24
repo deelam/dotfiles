@@ -4,7 +4,6 @@ chezmoi = "latest"
 starship = "latest"
 
 bat = "latest"
-btop = "latest"
 ripgrep = "latest"
 
 lsd = "latest"
