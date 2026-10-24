@@ -1,5 +1,8 @@
 alias l='lsd -al'
 alias lt='lsd -altr'
+
+alias ..='cd ..'
+
 alias o='open'
 alias cat=bat
 

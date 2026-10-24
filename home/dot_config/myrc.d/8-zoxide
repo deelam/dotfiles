@@ -1,2 +1,2 @@
 # directory jumper
-eval "$(zoxide init zsh)"
+eval "$(zoxide init $SHELL_NAME)"

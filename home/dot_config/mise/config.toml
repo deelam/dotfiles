@@ -3,6 +3,8 @@ chezmoi = "latest"
 
 starship = "latest"
 
+coreutils = "latest"
+
 bat = "latest"
 ripgrep = "latest"
 
@@ -15,11 +17,16 @@ fzf = "latest"
 # simple, fast, and user-friendly alternative to find
 fd = "latest"
 
-# node = "23.11.0"
+# generate shell completions, documentation, etc.
+# https://github.com/jdx/usage
+# usage = "latest"
+
+# for running CLI in Python environment
+uv = "latest"
+# for Python CLI commands
 python = "3.14"
 go = "1.27"
 node = "26"
-usage = "latest"
 
 gh = "latest"
 lazygit = "latest"

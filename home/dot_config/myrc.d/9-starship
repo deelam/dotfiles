@@ -1,2 +1,2 @@
 # Initialize Starship Prompt
-eval "$(starship init zsh)"
+eval "$(starship init $SHELL_NAME)"

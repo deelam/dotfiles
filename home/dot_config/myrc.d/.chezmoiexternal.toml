@@ -1,0 +1,6 @@
+# https://www.chezmoi.io/user-guide/include-files-from-elsewhere/#include-a-subdirectory-from-a-url
+
+["zsh-autosuggestions.zsh"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/zsh-users/zsh-autosuggestions/refs/heads/master/zsh-autosuggestions.zsh"
+    refreshPeriod = "168h"

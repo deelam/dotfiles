@@ -1,0 +1,75 @@
+# ---- zsh options ----
+# http://zsh.sourceforge.net/Doc/Release/Options.html
+
+# shell will make a guess of what you meant to type and ask whether you want do
+setopt CORRECT
+
+# http://www.bash2zsh.com/zsh_refcard/refcard.pdf
+# Do not display a line previously found when searching.
+setopt HIST_FIND_NO_DUPS
+# removes blank lines from history
+setopt HIST_REDUCE_BLANKS
+# When writing out the history file, duplicate are omitted
+setopt HIST_SAVE_NO_DUPS
+# older duplicate command is removed
+setopt HIST_IGNORE_ALL_DUPS
+# Expire duplicate entries first when trimming history.
+setopt HIST_EXPIRE_DUPS_FIRST
+# ignore duplicates of the previous event
+setopt HIST_IGNORE_DUPS
+# when the first character on the line is a space
+setopt HIST_IGNORE_SPACE
+
+# ---- zsh reminders ----
+
+# https://github.com/rothgar/mastering-zsh/blob/master/docs/helpers/bindkey.md
+# https://github.com/rothgar/mastering-zsh/blob/master/docs/usage/line_movement.md
+# https://github.com/rothgar/mastering-zsh/blob/master/docs/helpers/widgets.md
+
+# built-in: `C-x a` to expand an alias
+# Use tab to expand an alias:
+zstyle ':completion:*' completer _expand_alias _complete _ignored
+# Context (:completion:*): Applies this style to all completion contexts in Zsh.
+# Style (completer): Defines the chain of completion mechanisms Zsh runs when you press the Tab key.
+# Order of Execution: Zsh tries each completer in the listed order and stops as soon as one finds a match:
+#   1. _expand_alias: Expands command-line aliases before trying standard completion.
+#   2. _complete: Performs the standard, context-sensitive completion (the default behavior).
+#   3. _ignored: Completes words that were ignored or filtered out by other styles (such as ignored-patterns) if previous completers fail to find anything.
+
+# https://superuser.com/questions/446594/separate-up-arrow-lookback-for-local-and-global-zsh-history
+# https://superuser.com/questions/714412/zsh-or-maybe-oh-my-zsh-history-gets-confused-with-multi-line-commands
+
+# TIP: `bindkey -M emacs` to list bindings for a emacs keymap
+# `zle -al` shows possible commands for binding or https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#History-Control
+
+# ^[OA = up arrow
+# ^[OB = down arrow
+# ^[OC = right arrow
+# ^ = Ctrl
+# ^[ = Alt
+# \e or \E = Escape
+
+# ---- zsh-autosuggestions ----
+
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt EXTENDED_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+
+# to avoid triggering zsh-autosuggestion for strings that are too long
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50
+
+# https://github.com/zsh-users/zsh-autosuggestions
+# See a completion offered after the cursor in a muted gray color.
+# Accept the suggestion with the → key (forward-char widget) or End (end-of-line widget) with the cursor at the end of the buffer
+# Use the forward-word widget ("^[f" = Meta-f), it will partially accept the suggestion up to the point that the cursor moves to.
+
+source ~/.config/myrc.d/zsh-autosuggestions.zsh
+
+# inserts first word from previous -- https://github.com/zsh-users/zsh-autosuggestions/issues/748#issuecomment-1616256496
+bindkey -s '^[,' '\e0\e.'
+
+# ---- zsh ----
+
+# zsh-interactive-cd

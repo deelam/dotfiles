@@ -1,2 +1,2 @@
 # Init Atuin shell history
-eval "$(atuin init zsh)"
+eval "$(atuin init $SHELL_NAME)"

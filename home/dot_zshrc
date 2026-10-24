@@ -1,5 +1,6 @@
+export SHELL_NAME=zsh
 # Activate mise tool manager so that cmd_name can be found
-eval "$(~/.local/bin/mise activate zsh)"
+eval "$(~/.local/bin/mise activate $SHELL_NAME)"
 
 # Install all tools in ~/.config/mise/config.toml at once
 # mise install
@@ -20,3 +21,5 @@ if [[ -o interactive ]]; then
   unset F
   unset CMD_NAME
 fi
+
+unset SHELL_NAME
