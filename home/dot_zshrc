@@ -1,0 +1,22 @@
+# Activate mise tool manager so that cmd_name can be found
+eval "$(~/.local/bin/mise activate zsh)"
+
+# Install all tools in ~/.config/mise/config.toml at once
+# mise install
+
+if [[ -o interactive ]]; then
+  for F in ~/.config/myrc.d/[0-9]-*; do
+    if [ -f "$F" ]; then
+      CMD_NAME=$(basename "${F#*-}")
+      if command -v "$CMD_NAME" &> /dev/null; then
+        # echo "Sourcing $F" >&2
+        source "$F"
+      else
+        echo "Skipping $F" >&2
+        echo "Command not found: $CMD_NAME" >&2
+      fi
+    fi
+  done
+  unset F
+  unset CMD_NAME
+fi

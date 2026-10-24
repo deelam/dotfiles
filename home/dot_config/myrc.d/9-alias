@@ -1,0 +1,9 @@
+alias l='lsd -al'
+alias lt='lsd -altr'
+alias o='open'
+alias cat=bat
+
+alias path='echo -e "${PATH//:/\\n}"'
+
+alias zg=lazygit
+alias cm=chezmoi

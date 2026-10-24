@@ -1,0 +1,2 @@
+# Init Atuin shell history
+eval "$(atuin init zsh)"
