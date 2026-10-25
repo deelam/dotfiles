@@ -1,0 +1,2 @@
+# Adds a single mise path to PATH so that all global mise tools are available in all shells
+eval "$(~/.local/bin/mise activate zsh --shims)"

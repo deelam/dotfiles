@@ -26,15 +26,19 @@ uv = "latest"
 # for Python CLI commands
 python = "3.14"
 go = "1.27"
-# provides npm
 node = "26"
 
 gh = "latest"
 lazygit = "latest"
 atuin = "latest"
 
+# watches the directory recursively and runs your command on any change
+# watchexec -w ./your_folder -- your_command_here
+watchexec = "latest"
+
 
 [settings]
 idiomatic_version_file_enable_tools = ["python"]
 experimental = true
+activate_shims = false
 

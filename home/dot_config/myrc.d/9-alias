@@ -3,8 +3,11 @@ alias lt='lsd -altr'
 
 alias ..='cd ..'
 
+alias rm='rm -v'
+
 alias o='open'
 alias cat=bat
+alias whi=which
 
 alias path='echo -e "${PATH//:/\\n}"'
 
