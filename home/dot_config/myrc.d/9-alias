@@ -3,7 +3,7 @@ alias lt='lsd -altr'
 
 alias ..='cd ..'
 
-alias rm='rm -v'
+alias rm='rm -vi'
 
 alias o='open'
 alias cat=bat

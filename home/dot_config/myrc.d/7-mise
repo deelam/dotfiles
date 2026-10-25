@@ -1,0 +1,4 @@
+_evalcache mise activate $SHELL_NAME
+
+# Typing any command in ~/.config/mise/config.toml will automatically install it, otherwise force install:
+# mise install

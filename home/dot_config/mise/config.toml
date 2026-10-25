@@ -1,41 +1,9 @@
 [tools]
-chezmoi = "latest"
 
-starship = "latest"
-
-coreutils = "latest"
-
-bat = "latest"
-ripgrep = "latest"
-
-lsd = "latest"
-
-# directory jumper
-zoxide = "latest"
-fzf = "latest"
-
-# simple, fast, and user-friendly alternative to find
-fd = "latest"
-
-# generate shell completions, documentation, etc.
-# https://github.com/jdx/usage
-# usage = "latest"
-
-# for running CLI in Python environment
-uv = "latest"
 # for Python CLI commands
 python = "3.14"
 go = "1.27"
 node = "26"
-
-gh = "latest"
-lazygit = "latest"
-atuin = "latest"
-
-# watches the directory recursively and runs your command on any change
-# watchexec -w ./your_folder -- your_command_here
-watchexec = "latest"
-
 
 [settings]
 idiomatic_version_file_enable_tools = ["python"]

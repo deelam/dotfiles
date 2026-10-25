@@ -1,0 +1,47 @@
+# GNU utilities with g prefix under /usr/local/bin/
+
+# ---- Use coreutils ----
+
+if ! command -v gmv &> /dev/null; then
+  echo "Installing coreutils..." >&2
+  brew install --no-ask coreutils
+  # findutils provides (find, locate, updatedb, xargs)
+fi
+
+# Zsh automatically ties the $PATH scalar to the $path array
+if (( ${path[(I)/usr/bin]} )); then
+  PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
+  MANPATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnuman:$MANPATH"
+else
+  echo "Error: /usr/bin is NOT in your PATH. Run this AFTER /usr/bin is in PATH." >&2
+fi
+
+# ---- Use GNU utils ----
+# See https://apple.stackexchange.com/questions/69223/how-to-replace-mac-os-x-utilities-with-gnu-core-utilities/69332#69332
+
+if ! command -v gsed &> /dev/null; then
+  echo "Installing GNU utils..." >&2
+  brew install --no-ask findutils gnu-tar gnu-sed gawk gnutls gnu-indent gnu-getopt grep
+  # findutils provides (find, locate, updatedb, xargs)
+fi
+
+my_symlink_gnuutils() {
+  # 1. Create a dedicated directory for gnuutils links
+  local BIN_GNUUTILS=~/.local/bin/gnuutils
+  [ -d "$BIN_GNUUTILS" ] || mkdir -p $BIN_GNUUTILS
+
+  # 2. Populate the directory with symlinks for gnu commands
+  local CMD_PATH
+  for CMD_PATH in $HOMEBREW_PREFIX/opt/*/*/gnubin/*; do
+    local CMD=$(basename "$CMD_PATH")
+    if [ -d "$CMD_PATH" ] && [ "$CMD" = "man" ]; then
+      MANPATH="$CMD_PATH:$MANPATH"
+    elif [ -f "$CMD_PATH" ]; then
+      [ -e "$BIN_GNUUTILS/$CMD" ] || ln -sf $CMD_PATH "$BIN_GNUUTILS/$CMD"
+    fi
+  done
+
+  # 3. Prepend the directory to your active path
+  export PATH="$BIN_GNUUTILS:$PATH"
+}
+run_weekly_update my_symlink_gnuutils

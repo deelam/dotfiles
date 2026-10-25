@@ -2,11 +2,10 @@ export SHELL_NAME=zsh
 
 source ~/.config/myrc.d/zsh-evalcache.zsh
 
-# Activate mise tool manager so that cmd_name can be found
-_evalcache ~/.local/bin/mise activate $SHELL_NAME
-
-# Install all tools in ~/.config/mise/config.toml at once
-# mise install
+# Activate brew so that CMD_NAME can be found
+_evalcache brew shellenv $SHELL_NAME
+# along with any other tools
+PATH="$HOME/.local/bin:$PATH"
 
 # Uncomment the following to log timing
 # timer=$(($(date +%s%N)/1000000))
