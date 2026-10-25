@@ -34,11 +34,13 @@ run_weekly_update() {
     local MARKER_FILE="$HOME/.cache/.last_update_$1"
 
     if should_update "$MARKER_FILE" 7; then
-        # echo "🔄 More than 7 days since last update. Running updates..."
-        eval "$@"
+      # echo "🔄 More than 7 days since last update. Running updates..."
+      eval "$@"
 
-        # Update the timestamp file on success
-        touch "$MARKER_FILE"
-        # echo "✅ Update complete. Timestamp updated."
+      # Update the timestamp file on success
+      touch "$MARKER_FILE"
+      # echo "✅ Update complete. Timestamp updated."
+    else
+      return 3
     fi
 }

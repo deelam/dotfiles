@@ -24,6 +24,10 @@ setopt HIST_IGNORE_SPACE
 export cdpath=(. ~ ~/dev ~/Downloads ~/.config ~/.local)
 setopt auto_cd
 
+# https://sw.kovidgoyal.net/kitty/index.html#zsh
+# https://gist.github.com/ctechols/ca1035271ad134841284#gistcomment-2308206
+setopt extendedglob
+
 # ---- zsh reminders ----
 
 # https://github.com/rothgar/mastering-zsh/blob/master/docs/helpers/bindkey.md
@@ -39,6 +43,15 @@ zstyle ':completion:*' completer _expand_alias _complete _ignored
 #   1. _expand_alias: Expands command-line aliases before trying standard completion.
 #   2. _complete: Performs the standard, context-sensitive completion (the default behavior).
 #   3. _ignored: Completes words that were ignored or filtered out by other styles (such as ignored-patterns) if previous completers fail to find anything.
+
+# https://scriptingosx.com/2019/07/moving-to-zsh-part-5-completions/
+# Rebuild the completion index, some created by brew
+autoload -Uz compinit
+# _echo_timer "autoload compinit"
+# compinit: performs a full check and regenerate the cache
+# compinit -C: speed hack: bypasses the security scan of your $fpath directories
+run_weekly_update compinit || compinit -C
+# _echo_timer "compinit"
 
 # https://superuser.com/questions/446594/separate-up-arrow-lookback-for-local-and-global-zsh-history
 # https://superuser.com/questions/714412/zsh-or-maybe-oh-my-zsh-history-gets-confused-with-multi-line-commands
