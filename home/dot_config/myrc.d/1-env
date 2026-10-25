@@ -1,0 +1,44 @@
+
+# an industry-standard mechanism used to opt out of telemetry and anonymous usage data collection
+export DO_NOT_TRACK=true
+
+if command -v mate &> /dev/null; then
+  export EDITOR="mate -w"
+else
+  export EDITOR=vim
+fi
+
+# ---- utility functions ----
+
+# Checks if a file is older than a specified number of days (defaults to 7)
+# Returns 0 (true) if it is time to update, 1 (false) if it is too soon
+should_update() {
+    local timestamp_file="${1:-$HOME/.last_update_check}"
+    local days="${2:-7}"
+
+    # If file doesn't exist, we must update
+    [[ ! -f "$timestamp_file" ]] && return 0
+
+    # Zsh native check: look for the file modified more than X days ago
+    # (m+7) matches if modified > 7 days ago. (N) prevents "no matches found" errors.
+    local old_file=( "$timestamp_file"(m+"$days"N) )
+
+    # If the array is not empty, the file is older than the threshold
+    [[ -n "$old_file" ]] && return 0
+
+    return 1
+}
+
+# Wrapper function to execute your specific update logic
+run_weekly_update() {
+    local MARKER_FILE="$HOME/.cache/.last_update_$1"
+
+    if should_update "$MARKER_FILE" 7; then
+        # echo "🔄 More than 7 days since last update. Running updates..."
+        eval "$@"
+
+        # Update the timestamp file on success
+        touch "$MARKER_FILE"
+        # echo "✅ Update complete. Timestamp updated."
+    fi
+}

@@ -4,3 +4,8 @@
     type = "file"
     url = "https://raw.githubusercontent.com/zsh-users/zsh-autosuggestions/refs/heads/master/zsh-autosuggestions.zsh"
     refreshPeriod = "168h"
+
+["zsh-evalcache.zsh"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/mroth/evalcache/refs/heads/master/evalcache.plugin.zsh"
+    refreshPeriod = "168h"

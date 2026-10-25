@@ -1,2 +1,2 @@
 # directory jumper
-eval "$(zoxide init $SHELL_NAME)"
+_evalcache zoxide init $SHELL_NAME

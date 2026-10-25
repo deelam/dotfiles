@@ -1,54 +1,56 @@
 # GNU utilities with g prefix under /usr/local/bin/
 
 # ---- Use mise's coreutils uutils ----
-# 1. Create a dedicated directory for uutils links
-BIN_COREUTILS=~/.local/bin/coreutils
-mkdir -p $BIN_COREUTILS
+my_symlink_coreutils() {
+  # 1. Create a dedicated directory for uutils links
+  local BIN_COREUTILS=~/.local/bin/coreutils
+  [ -d "$BIN_COREUTILS" ] || mkdir -p $BIN_COREUTILS
 
-# 2. Populate the directory with symlinks for every supported command
-# Quick check to avoid checking each file
-CMDS_COUNT=$(coreutils --list | wc -l)
-LINKS_COUNT=$(ls ~/.local/bin/coreutils | wc -l)
-if [ $CMDS_COUNT -gt $LINKS_COUNT ]; then
-  COREUTILS_PATH=$(which coreutils)
-  for CMD in $(coreutils --list); do
-    [ -e "$BIN_COREUTILS/$CMD" ] || ln -sf $COREUTILS_PATH "$BIN_COREUTILS/$CMD"
-  done
-  unset CMD
-  unset COREUTILS_PATH
-fi
-unset CMDS_COUNT
-unset LINKS_COUNT
+  # 2. Populate the directory with symlinks for every supported command
+  # Quick check to avoid checking each file
+  local CMDS_COUNT=$(coreutils --list | wc -l)
+  local LINKS_COUNT=$(ls ~/.local/bin/coreutils | wc -l)
 
-# 3. Prepend the directory to your active path
-export PATH="$BIN_COREUTILS:$PATH"
-unset BIN_COREUTILS
+  if [ $CMDS_COUNT -gt $LINKS_COUNT ]; then
+    local COREUTILS_PATH="$(which coreutils)"
+    echo "Creating symlinks to $COREUTILS_PATH..." >&2
+    local CMD
+    for CMD in $(coreutils --list); do
+      [ -e "$BIN_COREUTILS/$CMD" ] || ln -vsf "$COREUTILS_PATH" "$BIN_COREUTILS/$CMD"
+    done
+  fi
+
+  # 3. Prepend the directory to your active path
+  export PATH="$BIN_COREUTILS:$PATH"
+}
+my_symlink_coreutils
 
 # ---- Use brew to install other GNU utils ----
 # See https://apple.stackexchange.com/questions/69223/how-to-replace-mac-os-x-utilities-with-gnu-core-utilities/69332#69332
 
-if ! command -v gsed; then
-  echo "Installing GNU utils..."
+if ! command -v gsed &> /dev/null; then
+  echo "Installing GNU utils..." >&2
   brew install findutils gnu-tar gnu-sed gawk gnutls gnu-indent gnu-getopt grep
   # findutils provides (find, locate, updatedb, xargs)
 fi
 
-# 1. Create a dedicated directory for gnuutils links
-BIN_GNUUTILS=~/.local/bin/gnuutils
-mkdir -p $BIN_GNUUTILS
+my_symlink_gnuutils() {
+  # 1. Create a dedicated directory for gnuutils links
+  local BIN_GNUUTILS=~/.local/bin/gnuutils
+  [ -d "$BIN_GNUUTILS" ] || mkdir -p $BIN_GNUUTILS
 
-# 2. Populate the directory with symlinks for gnu commands
-for CMD_PATH in /opt/homebrew/opt/*/*/gnubin/*; do
-  CMD=$(basename "$CMD_PATH")
-  if [ -d "$CMD_PATH" ] && [ "$CMD" = "man" ]; then
-    MANPATH="$CMD_PATH:$MANPATH"
-  elif [ -f "$CMD_PATH" ]; then
-    [ -e "$BIN_GNUUTILS/$CMD" ] || ln -sf $CMD_PATH "$BIN_GNUUTILS/$CMD"
-  fi
-done
-unset CMD_PATH
-unset CMD
+  # 2. Populate the directory with symlinks for gnu commands
+  local CMD_PATH
+  for CMD_PATH in /opt/homebrew/opt/*/*/gnubin/*; do
+    local CMD=$(basename "$CMD_PATH")
+    if [ -d "$CMD_PATH" ] && [ "$CMD" = "man" ]; then
+      MANPATH="$CMD_PATH:$MANPATH"
+    elif [ -f "$CMD_PATH" ]; then
+      [ -e "$BIN_GNUUTILS/$CMD" ] || ln -sf $CMD_PATH "$BIN_GNUUTILS/$CMD"
+    fi
+  done
 
-# 3. Prepend the directory to your active path
-export PATH="$BIN_GNUUTILS:$PATH"
-unset BIN_GNUUTILS
+  # 3. Prepend the directory to your active path
+  export PATH="$BIN_GNUUTILS:$PATH"
+}
+run_weekly_update my_symlink_gnuutils
