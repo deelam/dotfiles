@@ -1,2 +1,3 @@
-# Adds a single mise path to PATH so that all global mise tools are available in all shells
-eval "$(mise activate zsh --shims)"
+
+# Brew takes care of this: Adds a single mise path to PATH so that all global mise tools are available in all shells
+# eval "$(mise activate zsh --shims)"

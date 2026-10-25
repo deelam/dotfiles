@@ -11,9 +11,9 @@ fi
 # Zsh automatically ties the $PATH scalar to the $path array
 if (( ${path[(I)/usr/bin]} )); then
   PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
-  MANPATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnuman:$MANPATH"
+  # Handled by my_symlink_gnuutils below: MANPATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnuman:$MANPATH"
 else
-  echo "Error: /usr/bin is NOT in your PATH. Run this AFTER /usr/bin is in PATH." >&2
+  echo "Error: /usr/bin is NOT in your PATH. Run this AFTER /usr/bin is in PATH to override mac-specific utils under /usr/bin." >&2
 fi
 
 # ---- Use GNU utils ----
@@ -25,23 +25,33 @@ if ! command -v gsed &> /dev/null; then
   # findutils provides (find, locate, updatedb, xargs)
 fi
 
+BIN_GNUUTILS=~/.local/bin/gnuutils
 my_symlink_gnuutils() {
   # 1. Create a dedicated directory for gnuutils links
-  local BIN_GNUUTILS=~/.local/bin/gnuutils
   [ -d "$BIN_GNUUTILS" ] || mkdir -p $BIN_GNUUTILS
 
   # 2. Populate the directory with symlinks for gnu commands
-  local CMD_PATH
+  local MAN_PATHS=()
   for CMD_PATH in $HOMEBREW_PREFIX/opt/*/*/gnubin/*; do
     local CMD=$(basename "$CMD_PATH")
     if [ -d "$CMD_PATH" ] && [ "$CMD" = "man" ]; then
-      MANPATH="$CMD_PATH:$MANPATH"
+      MAN_PATHS+=("$(realpath "$CMD_PATH")")
     elif [ -f "$CMD_PATH" ]; then
       [ -e "$BIN_GNUUTILS/$CMD" ] || ln -sf $CMD_PATH "$BIN_GNUUTILS/$CMD"
     fi
   done
+  # Join MAN_PATHS array using ':'
+  echo "${(j|:|)MAN_PATHS}" > "$BIN_GNUUTILS/MANPATH"
 
   # 3. Prepend the directory to your active path
   export PATH="$BIN_GNUUTILS:$PATH"
 }
 run_weekly_update my_symlink_gnuutils
+export MANPATH="$(cat "$BIN_GNUUTILS/MANPATH"):$MANPATH"
+# To check this works: man -w sed zip
+# should return 1 brew path and 1 default path:
+#   /opt/homebrew/Cellar/gnu-sed/4.10/libexec/gnuman/man1/sed.1
+#   /usr/share/man/man1/zip.1
+
+# zsh feature: force unique entries in PATH
+typeset -U path
